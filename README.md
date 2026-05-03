@@ -1,6 +1,6 @@
-# docker-dev-tools
+# Docker Dev Tools
 
-A container-based development toolkit for Linux. Keeps the host machine clean by running all development tools through Docker containers, while exposing them under their original command names — so the shell behaves as if the tools were installed natively.
+Docker Dev Tools is a container-based development toolkit for Linux. It keeps the host machine clean by running development tools through Docker containers while exposing them under their original command names.
 
 ## Why
 
@@ -70,6 +70,9 @@ These rules apply to every tool in this repository, without exception.
 ```
 .
 ├── docker-compose.yml        # All service definitions
+├── images/
+│   └── make/
+│       └── Dockerfile        # GNU Make runtime image
 ├── bin/                      # Wrapper scripts (one per command)
 └── volumes/
     ├── node20/
@@ -84,6 +87,7 @@ These rules apply to every tool in this repository, without exception.
 |---|---|---|
 | `node`, `npm`, `npx` | `node:20-alpine` | Node.js 20 runtime |
 | `gh` | `maniator/gh:latest` | GitHub CLI |
+| `make` | local build (`./images/make`) | GNU Make build automation |
 
 ## Extending
 

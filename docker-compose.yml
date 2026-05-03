@@ -19,3 +19,11 @@ services:
     volumes:
       - ${PROJECT_DIR:?set PROJECT_DIR}:/workspace
       - ./volumes/gh/config:/gh-config
+
+  make-cli:
+    build:
+      context: ./images/make
+    working_dir: /workspace
+    volumes:
+      - ${PROJECT_DIR:?set PROJECT_DIR}:/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
