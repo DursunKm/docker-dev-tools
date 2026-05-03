@@ -1,0 +1,21 @@
+services:
+  node20-cli:
+    image: node:20-alpine
+    working_dir: /workspace
+    environment:
+      npm_config_cache: /cache/npm
+    volumes:
+      - ${PROJECT_DIR:?set PROJECT_DIR}:/workspace
+      - ./volumes/node20/npm_cache:/cache/npm
+
+  gh-cli:
+    image: maniator/gh:latest
+    working_dir: /workspace
+    environment:
+      GH_CONFIG_DIR: /gh-config
+      GIT_CONFIG_COUNT: "1"
+      GIT_CONFIG_KEY_0: safe.directory
+      GIT_CONFIG_VALUE_0: /workspace
+    volumes:
+      - ${PROJECT_DIR:?set PROJECT_DIR}:/workspace
+      - ./volumes/gh/config:/gh-config
