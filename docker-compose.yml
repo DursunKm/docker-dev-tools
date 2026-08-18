@@ -1,3 +1,5 @@
+name: docker-dev-tools
+
 services:
   node20-cli:
     image: node:20-alpine
@@ -9,7 +11,8 @@ services:
       - ./volumes/node20/npm_cache:/cache/npm
 
   gh-cli:
-    image: maniator/gh:latest
+    build:
+      context: ./images/gh
     working_dir: /workspace
     environment:
       GH_CONFIG_DIR: /gh-config
@@ -27,3 +30,13 @@ services:
     volumes:
       - ${PROJECT_DIR:?set PROJECT_DIR}:/workspace
       - /var/run/docker.sock:/var/run/docker.sock
+
+  claude-cli:
+    build:
+      context: ./images/claude
+    working_dir: ${PROJECT_DIR:?set PROJECT_DIR}
+    environment:
+      HOME: /home/claude
+    volumes:
+      - ${PROJECT_DIR:?set PROJECT_DIR}:${PROJECT_DIR:?set PROJECT_DIR}
+      - ./volumes/claude/config:/home/claude

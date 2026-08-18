@@ -5,4 +5,4 @@ DEVTOOLS_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
 PROJECT_DIR="${PROJECT_DIR:-$PWD}"
 
 PROJECT_DIR="$PROJECT_DIR" \
-  docker compose -f "$DEVTOOLS_DIR/docker-compose.yml" run --rm gh-cli "$@"
+  docker compose -f "$DEVTOOLS_DIR/docker-compose.yml" run --rm --build gh-cli "$@"

@@ -8,7 +8,7 @@ Installing runtimes globally on a development machine causes version conflicts, 
 
 ## How It Works
 
-Each tool is defined as a Docker Compose service. A thin shell script in `bin/` acts as a proxy: it receives the command, mounts the current project directory as `/workspace` inside the container, runs the tool, then removes the container. Nothing persists on the host except the project's own output files.
+Each tool is defined as a Docker Compose service. A thin shell script in `bin/` acts as a proxy: it receives the command, mounts the current project directory into the container, runs the tool, then removes the container. Nothing persists on the host except the project's own output files.
 
 ## Requirements
 
@@ -71,14 +71,20 @@ These rules apply to every tool in this repository, without exception.
 .
 ├── docker-compose.yml        # All service definitions
 ├── images/
-│   └── make/
-│       └── Dockerfile        # GNU Make runtime image
+│   ├── make/
+│   │   └── Dockerfile        # GNU Make runtime image
+│   ├── gh/
+│   │   └── Dockerfile        # GitHub CLI image (pinned upstream release)
+│   └── claude/
+│       └── Dockerfile        # Claude Code CLI image
 ├── bin/                      # Wrapper scripts (one per command)
 └── volumes/
     ├── node20/
     │   └── npm_cache/        # Shared npm cache across projects
-    └── gh/
-        └── config/           # GitHub CLI auth and configuration
+    ├── gh/
+    │   └── config/           # GitHub CLI auth and configuration
+    └── claude/
+        └── config/           # Claude Code home dir (auth state, settings)
 ```
 
 ## Included Tools
@@ -86,8 +92,9 @@ These rules apply to every tool in this repository, without exception.
 | Command(s) | Image | Purpose |
 |---|---|---|
 | `node`, `npm`, `npx` | `node:20-alpine` | Node.js 20 runtime |
-| `gh` | `maniator/gh:latest` | GitHub CLI |
+| `gh` | local build (`./images/gh`), pinned to a specific `gh` release | GitHub CLI |
 | `make` | local build (`./images/make`) | GNU Make build automation |
+| `claude` | local build (`./images/claude`) | Claude Code CLI |
 
 ## Extending
 

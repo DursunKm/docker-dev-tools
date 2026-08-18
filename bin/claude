@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+set -eu
+
+DEVTOOLS_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
+PROJECT_DIR="${PROJECT_DIR:-$PWD}"
+
+# The container is the trust boundary here (ephemeral, only the project
+# dir + its own config volume are mounted) — so the interactive trust
+# dialog and per-tool permission prompts, which have no way to be answered
+# in headless (-p) use, are skipped unconditionally rather than only for
+# headless calls.
+PROJECT_DIR="$PROJECT_DIR" \
+  docker compose -f "$DEVTOOLS_DIR/docker-compose.yml" run --rm --build claude-cli --dangerously-skip-permissions "$@"
